@@ -48,11 +48,13 @@ class node():
             
     def get_args(self):
         for i in self.args_parents:
-            self.args[i]=copy.copy(self.args_parents[i].out)
+            #self.args[i]=copy.copy(self.args_parents[i].out)
+            self.args[i]=self.args_parents[i].out
         return  self.args   
         
     def get_kwargs(self): 
         for kw in self.kwargs_parents:
-            self.kwargs[kw]=copy.copy(self.kwargs_parents[kw].out)         
+            #self.kwargs[kw]=copy.copy(self.kwargs_parents[kw].out)
+            self.kwargs[kw]=self.kwargs_parents[kw].out      
         return  self.kwargs       
             

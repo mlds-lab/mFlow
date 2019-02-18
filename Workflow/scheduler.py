@@ -12,7 +12,7 @@ def run(flow, backend="sequential", num_workers=1, monitor=False, from_scratch=F
     
     if(backend=="sequential"):
         return run_sequential(flow,monitor=monitor,from_scratch=from_scratch)
-    elif(backend=="multithread" or type=="multiprocess"):
+    elif(backend=="multithread" or backend=="multiprocess"):
         return run_parallel(flow, backend=backend, num_workers=num_workers,monitor=monitor,from_scratch=from_scratch)   
 
 
@@ -66,13 +66,14 @@ def run_parallel(flow,data=None,backend="multithread",num_workers=1,monitor=Fals
     
     with executor as ex:
     
-        changed=False
-    
-        while len(nodes_waiting)>0:        
+        while len(nodes_waiting)+len(nodes_scheduled)+len(nodes_running)>0: 
+            
+            changed=False
+                   
             for node in nodes_waiting:
                 parents = list(flow.graph.predecessors(node))
                 if(len(parents)==0 or all(x in nodes_done for x in parents)):
-                    
+                    changed=True                        
                     nodes_waiting.remove(node)
                     if from_scratch or flow.graph.node[node]["block"].out is None:
                         nodes_scheduled.append(node)
@@ -84,41 +85,34 @@ def run_parallel(flow,data=None,backend="multithread",num_workers=1,monitor=Fals
                         
                         flow.set_status(flow.graph.node[node], "scheduled")
                         
-                        if(monitor):
-                            flow.draw(refresh=True)                        
                         
                         print("Scheduled:", flow.graph.node[node]["block"].name)
                     else:
                         nodes_done.append(node)
                         flow.set_status(flow.graph.node[node], "done")
-
-                        if(monitor):
-                            flow.draw(refresh=True)
-                         
                         print("Done:", flow.graph.node[node]["block"].name)                       
+
+            for node in nodes_scheduled:
+                if par_out[node].running() or par_out[node].done():
+                    changed=True
+                    nodes_running = nodes_running + [node]
+                    nodes_scheduled.remove(node) 
+                    flow.set_status(flow.graph.node[node], "running")
+
+                    print("Running:", flow.graph.node[node]["block"].name)
                         
             for node in nodes_running:
                 if par_out[node].done():
+                    changed=True
                     flow.graph.node[node]["block"].out=par_out[node].result() 
                     nodes_done = nodes_done + [node]
                     nodes_running.remove(node)  
                     flow.set_status(flow.graph.node[node], "done")
-
-                    if(monitor):
-                        flow.draw(refresh=True)
                                     
                     print("Done:", flow.graph.node[node]["block"].name)
                     
-            for node in nodes_scheduled:
-                if par_out[node].running():
-                    nodes_running = nodes_running + [node]
-                    nodes_scheduled.remove(node) 
-                    flow.set_status(flow.graph.node[node], "running")
-                   
-                    if(monitor):
-                        flow.draw(refresh=True)
-
-                    print("Running:", flow.graph.node[node]["block"].name)
+            if(monitor and changed):
+                flow.draw(refresh=True)
                 
             time.sleep(0.1) 
             
