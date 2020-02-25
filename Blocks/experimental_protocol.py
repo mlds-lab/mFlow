@@ -57,7 +57,7 @@ def ExpTrainTest(*args, **kwargs):
     #return node(function = __ExpTrainTest, args=args, kwargs=kwargs, name=name)
 
 
-def __ExpTrainTest(df, estimators, metrics=(), random_state=11, train_size=.8, partition_index_number=0,key="dataframe", grouped=True):
+def __ExpTrainTest(df, estimators, metrics=(), random_state=11, train_size=.8, partition_index_number=0,key="dataframe", grouped=True, show=False):
 
     df=df[key]
 
@@ -84,7 +84,7 @@ def __ExpTrainTest(df, estimators, metrics=(), random_state=11, train_size=.8, p
 
 
     for name in estimators:
-        print("  Fitting and testing %s"%name)
+        if(show): print("  Fitting and testing %s"%name)
     
         #kwargs = copy.copy(estimators[name])
         #del kwargs["estimator"]
@@ -128,7 +128,7 @@ def ExpCV(*args, **kwargs):
     return node_list
 
     
-def __ExpCV(df, estimators, metrics=(), random_state=11, partition_index_number=0, n_folds=5, fold=None,key="dataframe",grouped=True):
+def __ExpCV(df, estimators, metrics=(), random_state=11, partition_index_number=0, n_folds=5, fold=None,key="dataframe",grouped=True, show=False):
     
     df=df[key]    
     X, Y = df_to_sk(df)
@@ -165,7 +165,7 @@ def __ExpCV(df, estimators, metrics=(), random_state=11, partition_index_number=
         Y_te = Y[test_index]
 
         for name in estimators:
-            print("  Fitting and testing %s"%(name))
+            if(show): print("  Fitting and testing %s"%(name))
         
             #kwargs = copy.copy(estimators[name])
             #del kwargs["estimator"]
@@ -210,7 +210,7 @@ def ExpWithin(*args, **kwargs):
     return node_list
 
     
-def __ExpWithin(df, estimators, metrics=(), random_state=11, partition_index_number=0, fold=None,n_folds=None, key="dataframe",train_size=.8,split="temporal"):
+def __ExpWithin(df, estimators, metrics=(), random_state=11, partition_index_number=0, fold=None,n_folds=None, key="dataframe",train_size=.8,split="temporal", show=False):
     
     df   = df[key]    
 
@@ -247,7 +247,7 @@ def __ExpWithin(df, estimators, metrics=(), random_state=11, partition_index_num
     fit_estimators=[{}]*n_folds
     
     for name in estimators:
-        print("  Fitting and testing %s"%(name))
+        if(show): print("  Fitting and testing %s"%(name))
     
         #kwargs = copy.copy(estimators[name])
         #del kwargs["estimator"]

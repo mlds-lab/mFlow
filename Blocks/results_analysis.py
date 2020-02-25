@@ -18,8 +18,8 @@ def ResultsConcat(*args, **kwargs):
             
     return node(function = __ResultsConcat, args=new_args, kwargs=kwargs, name="Results Concat")
             
-def __ResultsConcat(*args,inplace=True, show=True):
-    print("  Concatenating Results")
+def __ResultsConcat(*args,inplace=True, show=False):
+    if(show): print("  Concatenating Results")
     
     results = [x["report"] for x in args]
     df = pd.concat(results)
@@ -32,8 +32,8 @@ def __ResultsConcat(*args,inplace=True, show=True):
 def ResultsCVSummarize(*args, **kwargs):
     return node(function = __ResultsCVSummarize, args=args, kwargs=kwargs, name="Results CV Summarize")
  
-def __ResultsCVSummarize(*args,inplace=True, show=True):
-     print("  Summarizing CV results table")
+def __ResultsCVSummarize(*args,inplace=True, show=False):
+     if(show): print("  Summarizing CV results table")
     
      #Get one CV report as input
      report = args[0]["report"]
@@ -53,7 +53,7 @@ def __ResultsCVSummarize(*args,inplace=True, show=True):
 def DataYieldReport(*args, **kwargs):
     return node(function = __DataYieldReport, args=args, kwargs=kwargs, name="Data Yield Analysis")
     
-def __DataYieldReport(*args, names=[], show=True):
+def __DataYieldReport(*args, names=[], show=False):
     
     num_instances   = []
     num_features    = []

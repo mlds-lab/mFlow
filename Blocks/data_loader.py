@@ -11,18 +11,24 @@ import time
 def extrasensory_data_loader(**kwargs):
     return node(function = __extrasensory_data_loader, kwargs=kwargs, name="ES Data Loader")
 
-def __extrasensory_data_loader(label="SLEEPING"):
+def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
 
     start = time.time()
 
-    directory = "data/extrasensory/"
     pkl_file  = "extrasensory.pkl"
+    if(data_size=="large"):
+        directory = "data/extrasensory/"
+    elif(data_size=="small"):
+        directory = "data/small_extrasensory/"
+        df = pd.read_pickle(directory + pkl_file)
+        return({"dataframe":df}) 
+        
 
     try:
         os.stat(directory)
     except:
         print("  Extrasensory data directory not found. Downloading data...")
-        os.mkdir(directory)  
+        os.makedirs(directory)
         data = "http://extrasensory.ucsd.edu/data/primary_data_files/ExtraSensory.per_uuid_features_labels.zip"
         r    = requests.get(data)
         z    = zipfile.ZipFile(io.BytesIO(r.content))
@@ -53,9 +59,15 @@ def __extrasensory_data_loader(label="SLEEPING"):
     df=df.rename(index=str, columns={label_str: "target"})
     df=df.drop(columns=other_labels)
     df.index.names = ["ID","Time"]
-    #df=df[:100000]
+    # df=df[:100000]
     
     end = time.time()
     #print("Data Loader Time",end-start)
     return({"dataframe":df}) 
     #return(0)
+
+
+    # def extrasensory_data_loader_random(**kwargs):
+    # return node(function = __extrasensory_data_loader_random, kwargs=kwargs, name="ES Data Loader")
+
+    # def __extrasensory_data_loader_random

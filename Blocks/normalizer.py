@@ -15,7 +15,7 @@ def Normalizer(*args, **kwargs):
     return node(function = __Normalizer, args=args, kwargs=kwargs, name="Normalizer")
 
 
-def __Normalizer(df):
+def __Normalizer(df, show=False):
     model = RobustScaler()
 
     df = df["dataframe"]
@@ -24,7 +24,7 @@ def __Normalizer(df):
     numeric = df[features].values
     
     h,w = numeric.shape
-    print("  Normalizer: running matrix of size %dx%d"%(h,w))
+    if(show): print("  Normalizer: running matrix of size %dx%d"%(h,w))
     
     model.fit(numeric)
    
