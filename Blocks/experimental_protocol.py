@@ -95,9 +95,6 @@ def __ExpTrainTest(df, estimators, metrics=(), random_state=11, train_size=.8, p
     for name in estimators:
         if(show): print("  Fitting and testing %s"%name)
     
-        #kwargs = copy.copy(estimators[name])
-        #del kwargs["estimator"]
-        #estimator = estimators[name]["estimator"](**kwargs)
         estimator = copy.deepcopy(estimators[name])
         
         estimator.fit(X_tr,Y_tr)

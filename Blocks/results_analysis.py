@@ -1,11 +1,7 @@
 import sys, os
 sys.path.insert(0, os.path.abspath('..'))
 from Workflow.compute_graph import node
-
 import pandas as pd
-
-
-        
 
 def ResultsConcat(*args, **kwargs):
     

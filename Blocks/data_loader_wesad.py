@@ -58,6 +58,14 @@ def __wesad_label_loader(data_size="small"):
     else:
         raise ValueError("Error: data_size must be 'small' or 'all'")
 
+    #Data set documentation indicates removing label 0 and 5,6,7
+    #for this data set
+    labels = labels.filter("label > 0")
+    labels = labels.filter("label < 5")
+    
+    #Convert problem to stress/not stress with stress=1, not stress=0
+    labels= labels.replace({1:0,2:1,3:0,4:0},[], subset=["label"])
+    
     # window label data into 60 seconds chunks
     win = F.window("timestamp", windowDuration="60 seconds",startTime='0 seconds')
     windowed_labels=labels.groupby(["user","version",win]).agg(F.collect_list("label"))
