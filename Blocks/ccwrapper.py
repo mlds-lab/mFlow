@@ -6,7 +6,13 @@ import time
 
 def ccwrapper(*args, **kwargs):
     f=args[0]
-    name = f.__name__
+
+    if("name" in kwargs):
+        name = kwargs["name"]
+        del kwargs["name"]
+    else:
+        name = f.__name__
+
     return node(function = __ccwrapper, args=args, kwargs=kwargs, name=name)
             
 def __ccwrapper(f, df, sort_field=None, **kwargs):
@@ -18,18 +24,17 @@ def __ccwrapper(f, df, sort_field=None, **kwargs):
 
     return({"dataframe":df}) 
 
-def ccTake(*args, **kwargs):
-    return node(function = __ccTake, args=args, kwargs=kwargs, name="ccTake")
-
-def __ccTake(df, num):
-    return {"dataframe",df["dataframe"].take(num)}
-
-
 def cc_to_pandas(*args, **kwargs):
-    return node(function = __cc_to_pandas, args=args, kwargs=kwargs, name="cc_to_pandas")
+
+    if("name" in kwargs):
+        name = kwargs["name"]
+        del kwargs["name"]
+    else:
+        name = "cc_to_pandas"
+
+    return node(function = __cc_to_pandas, args=args, kwargs=kwargs, name=name)
 
 def __cc_to_pandas(df, participant_field=None, datetime_field=None, time_trunc="1T",cache_filename=None ):
-
 
     #Check if requesting cached copy and have cached copy 
     if(cache_filename is not None):

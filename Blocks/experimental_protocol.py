@@ -27,7 +27,14 @@ def df_to_sk(df):
     return X,Y
 
 def addTarget(*args, **kwargs):
-    return node(function = __addTarget, args=args, kwargs=kwargs, name="addTarget")
+
+    if("name" in kwargs):
+        name = kwargs["name"]
+        del kwargs["name"]
+    else:
+        name = "addTarget"
+    
+    return node(function = __addTarget, args=args, kwargs=kwargs, name=name)
 
 def __addTarget(df1,df2,*args, **kwargs):
     df = df1["dataframe"].join(df2["dataframe"],how="inner")

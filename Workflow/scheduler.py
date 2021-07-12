@@ -47,7 +47,7 @@ def run_sequential(flow, data=None, monitor=False,from_scratch=False):
     if(monitor): flow.draw() 
     
     if(monitor==False): print("Workflow complete\n")                            
-    return({n.name: n.out for n in flow.out_nodes})
+    return({n.out_tag: n.out for n in flow.out_nodes})
 
 
 ### Runs the pipelined graph in sequential order

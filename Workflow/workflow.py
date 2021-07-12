@@ -11,7 +11,7 @@ import os
         
 class workflow():
 
-    def __init__(self, nodes=[]):
+    def __init__(self, nodes={}):
 
         self.graph=nx.DiGraph()
         self.labels={}
@@ -20,7 +20,10 @@ class workflow():
         self.pipelineGraph = nx.DiGraph()
         #If have compute nodes, add to graph
         #along with all parents
-        self.add(nodes)
+        for out_tag in nodes:
+            node = nodes[out_tag]
+            node.out_tag = out_tag
+            self.add(node)
         self.pipeline(self.graph)
     
     def add(self, nodes):
@@ -28,7 +31,9 @@ class workflow():
         if type(nodes) is not list:
             nodes=[nodes]
         self.out_nodes = self.out_nodes + nodes
-        for node in nodes:            
+        for node in nodes: 
+            if(not hasattr(node,"out_tag")):
+                node.out_tag = node.name           
             self.recursive_add_node(node)
 
     def remove(self, nodes):
