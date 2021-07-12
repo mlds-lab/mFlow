@@ -53,7 +53,7 @@ def __ResultsCVSummarize(*args,inplace=True, show=False):
 def DataYieldReport(*args, **kwargs):
     return node(function = __DataYieldReport, args=args, kwargs=kwargs, name="Data Yield Analysis")
     
-def __DataYieldReport(*args, names=[], show=False):
+def __DataYieldReport(*args, names=None, show=False):
     
     num_instances   = []
     num_features    = []
@@ -81,8 +81,7 @@ def __DataYieldReport(*args, names=[], show=False):
 
         observed_feature_rate.append(100*num_observed_feature_values[-1]/(num_instances[-1]*num_features[-1]))
         observed_label_rate.append(100*num_observed_label_values[-1]/num_instances[-1])
-        
-    
+            
     d = {"#Individuals": num_individuals,
          "#Individuals with Data": num_idividuals_with_data,
          "#Instances": num_instances,
@@ -91,11 +90,14 @@ def __DataYieldReport(*args, names=[], show=False):
          "#Features": num_features,
          "#Observed Feature Values": num_observed_feature_values,
          "%Observed Feature Values": observed_feature_rate}
-    
-    report = pd.DataFrame(d, index=names)
+
+    if(names is not None):
+        report = pd.DataFrame(d)
+    else:
+        report = pd.DataFrame(d, index=names)
     report=report.round(2)
     
     if(show):
         display(report)
     
-    return({"report": report})
+    return({"report": report,"lists":d})

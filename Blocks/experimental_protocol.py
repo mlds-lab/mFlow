@@ -26,6 +26,12 @@ def df_to_sk(df):
     
     return X,Y
 
+def addTarget(*args, **kwargs):
+    return node(function = __addTarget, args=args, kwargs=kwargs, name="addTarget")
+
+def __addTarget(df1,df2,*args, **kwargs):
+    df = df1["dataframe"].join(df2["dataframe"],how="inner")
+    return {"dataframe": df} 
 
 
 def ExpTrainTest(*args, **kwargs):
@@ -52,10 +58,6 @@ def ExpTrainTest(*args, **kwargs):
         node_list.append(node(function = __ExpTrainTest, args=copy.copy(args), kwargs=copy.copy(kwargs), name=name))
     
     return node_list
-    
-    
-    #return node(function = __ExpTrainTest, args=args, kwargs=kwargs, name=name)
-
 
 def __ExpTrainTest(df, estimators, metrics=(), random_state=11, train_size=.8, partition_index_number=0,key="dataframe", grouped=True, show=False):
 

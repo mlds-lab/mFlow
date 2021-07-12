@@ -72,7 +72,7 @@ class pipelineNode():
         self.node_list = node_list
         self.initGraph = initGraph
         for i, id in enumerate(node_list):
-            self.name += initGraph.node[id]["block"].name
+            self.name += initGraph.nodes[id]["block"].name
             if i != len(node_list)-1:
                 self.name += "."
         self.out = None
@@ -86,7 +86,7 @@ class pipelineNode():
         else:
             for node_id in self.node_list:
                 #print(node_id)
-                intermediate_out = self.initGraph.node[node_id]["block"].run()
+                intermediate_out = self.initGraph.nodes[node_id]["block"].run()
             self.out = intermediate_out
             #print("Time taken by "+ str(self.initGraph.node[node_id]["block"].name) + " : " + str(time.time()-time1))
             return (self.out)

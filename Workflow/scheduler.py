@@ -10,7 +10,7 @@ import numpy as np
 def run(flow, backend="sequential", num_workers=1, monitor=False, from_scratch=False):
     
     for id in flow.graph.nodes():
-        node=flow.graph.node[id]
+        node=flow.graph.nodes[id]
         flow.set_status(node,"notscheduled")
     
     if(backend=="sequential"):
@@ -28,22 +28,22 @@ def run_sequential(flow, data=None, monitor=False,from_scratch=False):
     if(monitor==False): print("Running Sequential Scheduler\n")
     
     for id in flow.graph.nodes():
-        node=flow.graph.node[id]
+        node=flow.graph.nodes[id]
         flow.set_status(node,"notscheduled")
     
     exectute_order = list(nx.topological_sort(flow.graph))
 
     for i,id in enumerate(exectute_order):
         
-        if from_scratch or flow.graph.node[id]["block"].out is None:    
-            if(monitor==False): print("Running step %s"%flow.graph.node[id]["block"].name)
-            flow.set_status(flow.graph.node[id], "running")
+        if from_scratch or flow.graph.nodes[id]["block"].out is None:    
+            if(monitor==False): print("Running step %s"%flow.graph.nodes[id]["block"].name)
+            flow.set_status(flow.graph.nodes[id], "running")
             if(monitor): flow.draw(refresh=True)                        
-            flow.graph.node[id]["block"].run()
-            flow.set_status(flow.graph.node[id], "done")                
+            flow.graph.nodes[id]["block"].run()
+            flow.set_status(flow.graph.nodes[id], "done")                
             if(monitor==False): print("")
             
-    flow.set_status(flow.graph.node[id], "done")
+    flow.set_status(flow.graph.nodes[id], "done")
     if(monitor): flow.draw() 
     
     if(monitor==False): print("Workflow complete\n")                            

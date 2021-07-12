@@ -7,6 +7,7 @@ import matplotlib.image as mpimg
 import networkx as nx
 import Workflow.scheduler as scheduler
 from Workflow.compute_graph import pipelineNode
+import os
         
 class workflow():
 
@@ -53,7 +54,7 @@ class workflow():
             
                 #Remove any descendents from graph
                 for descendant_id in descendants:
-                    this_node = self.graph.node[descendant_id]["block"]
+                    this_node = self.graph.nodes[descendant_id]["block"]
                     print("  Removing: ", this_node.name, descendant_id)
                 
                     self.graph.remove_node(descendant_id)
@@ -121,6 +122,8 @@ class workflow():
         pdot.set_rankdir("LR")
         #pdot.set_splines("ortho")
         
+        if not os.path.exists("Temp"):
+            os.mkdir("Temp")
         pdot.write_png("Temp/temp.png")
         #pdot.write_pdf("Temp/temp.pdf")
         img=mpimg.imread('Temp/temp.png')
@@ -175,7 +178,7 @@ class workflow():
                 # print(self.graph.node[plNode.tail]["block"])
                 # print(list(self.graph.node[plNode_adj.head]["block"].args_parents.values()))
                 # print("next")
-                if self.graph.node[plNode.tail]["block"] in self.graph.node[plNode_adj.head]["block"].args_parents.values():
+                if self.graph.nodes[plNode.tail]["block"] in self.graph.nodes[plNode_adj.head]["block"].args_parents.values():
                     # print("1")
                     self.pipelineGraph.add_edge(plNode.id, plNode_adj.id)
         
