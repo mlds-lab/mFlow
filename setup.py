@@ -58,7 +58,6 @@ if __name__ == '__main__':
 
         # You can just specify the packages manually here if your project is
         # simple. Or you can use find_packages().
-        package_dir={"": "mFlow"},
         packages=find_packages(exclude=['contrib', 'docs', 'tests','Examples']),
 
         # List run-time dependencies here.  These will be installed by pip when
