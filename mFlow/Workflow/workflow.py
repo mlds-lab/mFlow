@@ -22,6 +22,7 @@ class workflow():
         #along with all parents
         for out_tag in nodes:
             node = nodes[out_tag]
+            node.output  = True
             node.out_tag = out_tag
             self.add(node)
         self.pipeline(self.graph)

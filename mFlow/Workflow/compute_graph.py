@@ -8,6 +8,7 @@ class node():
         self.args = list(args)
         self.kwargs = kwargs
         self.name = name
+        self.output=False
         self.parents=parents
         self.out = None
         self.args_parents = {}
@@ -27,25 +28,16 @@ class node():
                 self.kwargs_parents[kw]=self.kwargs[kw]
                 self.long_name += self.kwargs[kw].long_name + "." 
 
-    def run(self):
-        time1 = time.time()
-        # if self.out is not None:
-            #If function at this node has already been computed, 
-            #just return the value
-            # return(self.out)
-        # else:
-            #If function has not been computed, first compute all
-            #arguments that are also nodes, then compute
-            #the function itself and store the result.
-            
+    def run(self):            
         for i in self.args_parents:
-            #self.args[i]=self.args_parents[i].run()
             self.args[i]=self.args_parents[i].out
         for kw in self.kwargs_parents:
-            #self.kwargs[kw]=self.kwargs_parents[kw].run()
-            self.kwargs[kw]=self.kwargs_parents[kw].out()
+            self.kwargs[kw]=self.kwargs_parents[kw].out
+
         self.out =  self.function(*self.args, **self.kwargs)
-        #print("Time taken by node " + str(self.name) + " : " + str(time.time()-time1))
+
+
+
         return (self.out)
             
     def get_args(self):
