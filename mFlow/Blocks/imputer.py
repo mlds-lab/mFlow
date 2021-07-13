@@ -1,11 +1,6 @@
 
-#from fancyimpute.iterative_svd import IterativeSVD
-#from fancyimpute.simple_fill import SimpleFill
-#from fancyimpute.knn import KNN
-
 import sys, os
-sys.path.insert(0, os.path.abspath('..'))
-from Workflow.compute_graph import node
+from mFlow.Workflow.compute_graph import node
 
 from sklearn.impute import SimpleImputer
 import pandas as pd

@@ -1,6 +1,5 @@
 import sys, os
-sys.path.insert(0, os.path.abspath('..'))
-from Workflow.compute_graph import node
+from mFlow.Workflow.compute_graph import node
 
 import copy
 import numpy as np
@@ -16,7 +15,6 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 import  time
-import copy
 
 def df_to_sk(df):
     

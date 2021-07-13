@@ -1,15 +1,9 @@
 
-#from fancyimpute.iterative_svd import IterativeSVD
-#from fancyimpute.knn import KNN
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import RobustScaler
-# TODO: add a wrapper for fancy-impute with fit and transform methods instead of the built-in complete() method, that
-# TODO: takes the imputer method (or its type maybe?) as an argument (in function form? similar to ColumnSelection).
-
 import sys, os
-sys.path.insert(0, os.path.abspath('..'))
-from Workflow.compute_graph import node
+from mFlow.Workflow.compute_graph import node
 
 def Normalizer(*args, **kwargs):
     return node(function = __Normalizer, args=args, kwargs=kwargs, name="Normalizer")

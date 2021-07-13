@@ -5,8 +5,8 @@ from concurrent import futures
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import networkx as nx
-import Workflow.scheduler as scheduler
-from Workflow.compute_graph import pipelineNode
+import mFlow.Workflow.scheduler as scheduler
+from mFlow.Workflow.compute_graph import pipelineNode
 import os
         
 class workflow():
