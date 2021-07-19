@@ -46,6 +46,7 @@ def __ResultsCVSummarize(*args,inplace=True, show=False):
      return({"report": summary_report})
      
 def DataYieldReport(*args, **kwargs):
+
     return node(function = __DataYieldReport, args=args, kwargs=kwargs, name="Data Yield Analysis")
     
 def __DataYieldReport(*args, names=None, show=False):
@@ -87,9 +88,10 @@ def __DataYieldReport(*args, names=None, show=False):
          "%Observed Feature Values": observed_feature_rate}
 
     if(names is not None):
-        report = pd.DataFrame(d)
-    else:
         report = pd.DataFrame(d, index=names)
+    else:
+        report = pd.DataFrame(d)
+        
     report=report.round(2)
     
     if(show):

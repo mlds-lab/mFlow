@@ -5,6 +5,7 @@ from concurrent import futures
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import networkx as nx
+from networkx.generators.triads import triad_graph
 import mFlow.Workflow.scheduler as scheduler
 from mFlow.Workflow.compute_graph import pipelineNode
 import os
@@ -20,13 +21,19 @@ class workflow():
         self.pipelineGraph = nx.DiGraph()
         #If have compute nodes, add to graph
         #along with all parents
-        for out_tag in nodes:
-            node = nodes[out_tag]
-            node.output  = True
-            node.out_tag = out_tag
-            self.add(node)
+
+        print(nodes)
+
+        for tag in nodes:
+            node = nodes[tag]
+            self.add_output(node, tag)
         self.pipeline(self.graph)
-    
+
+    def add_output(self, node, tag):
+        node.out_tag = tag
+        node.is_output=True
+        self.add(node)
+
     def add(self, nodes):
         
         if type(nodes) is not list:
@@ -107,6 +114,7 @@ class workflow():
         self.graph.add_edge(node_from, node_to)
         
     def set_status(self,node,status):
+        node["block"].status=status
         if(status=="scheduled"):
             node["fillcolor"]="lemonchiffon"
         elif(status=="notscheduled"):
@@ -115,14 +123,12 @@ class workflow():
             node["fillcolor"]="palegreen3"
         elif(status=="done"):
             node["fillcolor"]="lightblue"
-            
-        
     
     def draw(self, refresh=False):
         import networkx as nx
         from networkx.drawing.nx_agraph import write_dot, graphviz_layout
         import matplotlib.pyplot as plt
-        from IPython import display
+        from IPython.display import Image, display,clear_output
         
         pdot = nx.drawing.nx_pydot.to_pydot(self.graph)
         pdot.set_rankdir("LR")
@@ -131,38 +137,23 @@ class workflow():
         if not os.path.exists("Temp"):
             os.mkdir("Temp")
         pdot.write_png("Temp/temp.png")
-        #pdot.write_pdf("Temp/temp.pdf")
-        img=mpimg.imread('Temp/temp.png')
-        
-        plt.figure(1,figsize=(img.shape[1]/100,img.shape[0]/100))
-        plt.imshow(img,interpolation='bicubic')
-        plt.axis('off')
-           
-        display.clear_output(wait=True)
-        if(refresh):
-            display.display(plt.gcf())  
+
+        clear_output(wait=True)
+        display(Image(filename='Temp/temp.png')) 
 
     def drawPipelined(self, refresh=False):
         import networkx as nx
         from networkx.drawing.nx_agraph import write_dot, graphviz_layout
         import matplotlib.pyplot as plt
-        from IPython import display
+        from IPython.display import Image, display,clear_output
         
         pdot = nx.drawing.nx_pydot.to_pydot(self.pipelineGraph)
         pdot.set_rankdir("LR")
-        #pdot.set_splines("ortho")
         
         pdot.write_png("Temp/temp.png")
-        #pdot.write_pdf("Temp/temp.pdf")
-        img=mpimg.imread('Temp/temp.png')
-        
-        plt.figure(1,figsize=(img.shape[1]/100,img.shape[0]/100))
-        plt.imshow(img,interpolation='bicubic')
-        plt.axis('off')
-           
-        display.clear_output(wait=True)
-        if(refresh):
-            display.display(plt.gcf())      
+
+        clear_output(wait=True)
+        display(Image(filename='Temp/temp.png'))     
     
     def run(self, backend="sequential", num_workers=1, monitor=False,from_scratch=False):
         return scheduler.run(self, backend=backend, num_workers=num_workers, monitor=monitor,from_scratch=from_scratch)

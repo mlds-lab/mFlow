@@ -8,11 +8,13 @@ class node():
         self.args = list(args)
         self.kwargs = kwargs
         self.name = name
-        self.output=False
-        self.parents=parents
+        self.is_output=False
         self.out = None
+        self.status=None
+        self.parents=parents
         self.args_parents = {}
         self.kwargs_parents = {}
+        self.future=None
         
         self.long_name = ""
 
@@ -36,19 +38,15 @@ class node():
 
         self.out =  self.function(*self.args, **self.kwargs)
 
-
-
         return (self.out)
             
     def get_args(self):
         for i in self.args_parents:
-            #self.args[i]=copy.copy(self.args_parents[i].out)
             self.args[i]=self.args_parents[i].out
         return  self.args   
         
     def get_kwargs(self): 
         for kw in self.kwargs_parents:
-            #self.kwargs[kw]=copy.copy(self.kwargs_parents[kw].out)
             self.kwargs[kw]=self.kwargs_parents[kw].out      
         return  self.kwargs
 
