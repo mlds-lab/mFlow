@@ -16,11 +16,13 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
 
     start = time.time()
 
-    pkl_file  = "extrasensory.pkl"
+
     if(data_size=="large"):
         directory = os.path.join(getDataDir(),"extrasensory")
     elif(data_size=="small"):
         directory = os.path.join(getDataDir(),"small_extrasensory")
+
+    pkl_file  = os.path.join(directory,"extrasensory.pkl")
 
     try:
         os.stat(directory)
@@ -33,9 +35,9 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
         z.extractall(directory)
     
     try: 
-        os.stat(directory + pkl_file)
-        print("  Loading Extrasensory pkl file...")
-        df = pd.read_pickle(directory + pkl_file)
+        os.stat(pkl_file)
+        print("  Loading Extrasensory pkl file %s..."%pkl_file)
+        df = pd.read_pickle(pkl_file)
     except:
         print("  Extrasensory pkl file not found. Extracting data...")
         df_list=[]
@@ -54,7 +56,7 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
         print("Done building dataframe")
         df_list=None
         df.to_pickle(directory + pkl_file)
-        print("Done writing pkl file")
+        print("Done writing pkl file %s"%pkl_file)
 
     #Extract desired label
     label_str = "label:" + label
