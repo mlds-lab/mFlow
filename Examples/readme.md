@@ -1,15 +1,15 @@
 # mFlow Examples
 
 ## Experiment Design Examples
-* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicTrainTest.ipynb) Workflow showing how to perform a basic train-test experimental.
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicTrainTest.ipynb) Workflow showing how to perform a basic train-test experimenta.
 
 * [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingModels.ipynb) Workflow comparing multiple models under a basic train-test experiment design.
 
 * [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicCV.ipynb) Workflow showing how to perform a cross-validation assessment experimental workflow comparing two models.  
 
-* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicLOSO.ipynb) Workflow showing how to perform a basic leave-one-subject-out experimental.
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicLOSO.ipynb) Workflow showing how to perform a basic leave-one-subject-out experiment.
 
-* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicWithin.ipynb) Workflow showing how to perform a within-subject train-test split experimental. 
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicWithin.ipynb) Workflow showing how to perform a within-subject train-test split experiment. 
 
 * [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingPersonalization.ipynb ) Worflow comparing the leave-one-subject-out and within-person experimental designs. 
 
