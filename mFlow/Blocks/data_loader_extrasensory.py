@@ -31,6 +31,7 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
         os.makedirs(directory)
         data = "http://extrasensory.ucsd.edu/data/primary_data_files/ExtraSensory.per_uuid_features_labels.zip"
         r    = requests.get(data)
+        r.raise_for_status()
         z    = zipfile.ZipFile(io.BytesIO(r.content))
         z.extractall(directory)
     
@@ -42,7 +43,7 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
         print("  Extrasensory pkl file not found. Extracting data...")
         df_list=[]
         uuid_list = []
-        files = glob.glob(directory + "*.gz")
+        files = glob.glob(directory + "/*.gz")
         df_all=None
         for file in files:
             print(file)
