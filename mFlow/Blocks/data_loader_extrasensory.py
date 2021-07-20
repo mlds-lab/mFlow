@@ -1,6 +1,7 @@
 import sys, os
 sys.path.insert(0, os.path.abspath('..'))
 from mFlow.Workflow.compute_graph import node
+from mFlow.Utilities.utilities import getDataDir
 
 import requests, zipfile, io
 import glob
@@ -17,9 +18,9 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
 
     pkl_file  = "extrasensory.pkl"
     if(data_size=="large"):
-        directory = "data/extrasensory/"
+        directory = os.path.join(getDataDir(),"extrasensory")
     elif(data_size=="small"):
-        directory = "data/small_extrasensory/"
+        directory = os.path.join(getDataDir(),"small_extrasensory")
 
     try:
         os.stat(directory)

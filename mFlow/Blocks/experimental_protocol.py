@@ -34,8 +34,9 @@ def addTarget(*args, **kwargs):
     
     return node(function = __addTarget, args=args, kwargs=kwargs, name=name)
 
-def __addTarget(df1,df2,*args, **kwargs):
-    df = df1["dataframe"].join(df2["dataframe"],how="inner")
+def __addTarget(df_data,df_labels,*args, key_data="dataframe", key_labels="dataframe",**kwargs):
+
+    df = df_data[key_data].join(df_labels[key_labels],how="inner")
     return {"dataframe": df} 
 
 

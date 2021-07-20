@@ -1,5 +1,6 @@
 import sys, os
 from mFlow.Workflow.compute_graph import node
+from mFlow.Utilities.utilities import getCacheDir
 import pandas as pd
 import time
 
@@ -33,22 +34,25 @@ def cc_to_pandas(*args, **kwargs):
 
     return node(function = __cc_to_pandas, args=args, kwargs=kwargs, name=name)
 
-def __cc_to_pandas(df, participant_field=None, datetime_field=None, time_trunc="1T",cache_filename=None ):
+def __cc_to_pandas(df, participant_field=None, key="dataframe", datetime_field=None, time_trunc="1T",cache_filename=None ):
+
+    cache_dir           = getCacheDir()
+    cache_file_path     = os.path.join(cache_dir ,cache_filename)
 
     #Check if requesting cached copy and have cached copy 
-    if(cache_filename is not None):
-        if(os.path.exists(cache_filename)):
-            df = pd.read_pickle(cache_filename)
+    if(cache_file_path is not None):
+        if(os.path.exists(cache_file_path)):
+            df = pd.read_pickle(cache_file_path)
             return({"dataframe":df})
 
     #Get the dataframe
-    df=df["dataframe"].toPandas()
+    df=df[key].toPandas()
     df[datetime_field]=df[datetime_field].apply(lambda x: x.floor(freq=time_trunc))
     df=df.set_index([participant_field,datetime_field])
     df.index.names = ["ID","Time"]
 
     #If needed, cache the dataframe
-    if(cache_filename is not None):
-        df.to_pickle(cache_filename)    
+    if(cache_file_path is not None):
+        df.to_pickle(cache_file_path)    
 
     return({"dataframe":df}) 
