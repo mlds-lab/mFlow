@@ -24,9 +24,7 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
 
     pkl_file  = os.path.join(directory,"extrasensory.pkl")
 
-    try:
-        os.stat(directory)
-    except:
+    if not os.path.exists(directory):
         print("  Extrasensory data directory not found. Downloading data...")
         os.makedirs(directory)
         data = "http://extrasensory.ucsd.edu/data/primary_data_files/ExtraSensory.per_uuid_features_labels.zip"
@@ -35,11 +33,10 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
         z    = zipfile.ZipFile(io.BytesIO(r.content))
         z.extractall(directory)
     
-    try: 
-        os.stat(pkl_file)
+    if(os.path.isfile(pkl_file)):
         print("  Loading Extrasensory pkl file %s..."%pkl_file)
         df = pd.read_pickle(pkl_file)
-    except:
+    else:
         print("  Extrasensory pkl file not found. Extracting data...")
         df_list=[]
         uuid_list = []
