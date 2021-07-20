@@ -29,5 +29,4 @@
 
 ## Cerebral Cortex Integration Examples
 
-## WESAD Stress Detection Examples using Cerebral Cortex 
 * [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/WESAD-BasicTrainTest.ipynb) Basic train/test experimental workflow comparing multiple models. 
