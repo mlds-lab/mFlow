@@ -13,7 +13,8 @@ reqs = [
     'networkx>=2.4',
     'scikit-learn>=0.20.2',
     'pydot',
-    'cerebralcortex-kernel==3.3.10'
+    'cerebralcortex-kernel==3.3.10',
+    'py-ecg-detectors'
 ]
 
 # Get the long description from the README file
