@@ -53,7 +53,7 @@ def __extrasensory_data_loader(label="SLEEPING",data_size="large"):
         df = pd.concat(df_list, axis = 0, keys=uuid_list)
         print("Done building dataframe")
         df_list=None
-        df.to_pickle(directory + pkl_file)
+        df.to_pickle(pkl_file)
         print("Done writing pkl file %s"%pkl_file)
 
     #Extract desired label
