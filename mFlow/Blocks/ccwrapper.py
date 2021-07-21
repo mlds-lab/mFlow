@@ -47,7 +47,8 @@ def __cc_to_pandas(df, participant_field=None, key="dataframe", datetime_field=N
 
     #Get the dataframe
     df=df[key].toPandas()
-    df[datetime_field]=df[datetime_field].apply(lambda x: x.floor(freq=time_trunc))
+    if time_trunc is not None:
+        df[datetime_field]=df[datetime_field].apply(lambda x: x.floor(freq=time_trunc))
     df=df.set_index([participant_field,datetime_field])
     df.index.names = ["ID","Time"]
 
