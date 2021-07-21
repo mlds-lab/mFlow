@@ -11,13 +11,13 @@
 
 * [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-BasicWithin.ipynb) Workflow showing how to perform a within-subject train-test split experiment. 
 
-* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingPersonalization.ipynb ) Worflow comparing the leave-one-subject-out and within-person experimental designs. 
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingPersonalization.ipynb ) Worflow comparing the leave-one-subject-out and within-subject experimental designs. 
 
 ## Data Preprocessing Comparisons:
 
 * [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingNormalization.ipynb) Workflow comparing the use of normalization to no normalization in a basic train-test experiment design.
 
-* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingImputers.ipynb) Workflow comparing model-based mean to zero-imputation in a train-test experiment design.
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/ExtraSensory-ComparingImputers.ipynb) Workflow comparing mean imputation to zero-imputation in a train-test experiment design.
 
 ## Hyper-parameter Optimization Examples
 
@@ -29,4 +29,6 @@
 
 ## Cerebral Cortex Integration Examples
 
-* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/WESAD-BasicTrainTest.ipynb) Basic train/test experimental workflow comparing multiple models. 
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/WESAD-ECG-RR.ipynb) Workflow using Cerebral Cortex feature extractors to get ECG with data quality indicators as well as RR intervals from ECG data. 
+
+* [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mlds-lab/mFlow/blob/master/Examples/WESAD-BasicTrainTest.ipynb) Basic train/test experimental workflow comparing multiple models using Cerebral Cortex feature extractors. 
