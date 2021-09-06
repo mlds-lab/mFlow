@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-mFlow 
-=====
+mFlow Overview
+==============
 
 mFlow is a Python module for specifying and executing machine learning experimentation workflows. It organizes both 
 data transformations and common experimental procedures into workflow blocks. mFlow focuses on the multi-core parallel 
@@ -44,6 +44,14 @@ Examples
 See the `Examples <https://github.com/mlds-lab/mFlow/tree/master/Examples>`_ directory for a list of mFlow examples 
 that can be run locally or launched in `Google Colab <https://colab.research.google.com/>`_.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   rst/mFlow.Blocks.rst
+   rst/mFlow.Utilities.rst
+   rst/mFlow.Workflow.rst
+
 Contributors
 ------------
 
@@ -57,13 +65,9 @@ This project is licensed under the BSD 2-Clause - see the `license <https://gith
 Acknowledgments
 ---------------
 
-* `National Institutes of Health <https://www.nih.gov/>_` - `Big Data to Knowledge Initiative <https://datascience.nih.gov/bd2k>`_ Grant: 1U54EB020404
-* `National Science Foundation <https://www.nsf.gov/>`_ Grants: 1640813, 1722646
+* `National Institutes of Health <https://www.nih.gov/>`_ - `Big Data to Knowledge Initiative <https://datascience.nih.gov/bd2k>`_ Grant: 1U54EB020404
+* `National Science Foundation <https://www.nsf.gov/>`_ Grant: 1823283
 
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
 
 Indices and tables
