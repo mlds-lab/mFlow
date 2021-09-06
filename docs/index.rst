@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-mFlow
+mFlow 
 =====
 
 mFlow is a Python module for specifying and executing machine learning experimentation workflows. It organizes both 
