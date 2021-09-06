@@ -34,6 +34,9 @@ pip3 install ./mFlow
 See the [Examples](https://github.com/mlds-lab/mFlow/tree/master/Examples) directory for a list of mFlow examples 
 that can be run locally or launched in [Google Colab](https://colab.research.google.com/).
 
+## Documentation
+[mFlow project documentation](https://mflow.readthedocs.io/en/latest/) is hosted on the readthedocs.io.
+
 ## Contributors
 
 Link to the [list of contributors](https://github.com/mlds-lab/mFlow/graphs/contributors) who participated in this project.
@@ -44,7 +47,5 @@ This project is licensed under the BSD 2-Clause - see the [license](https://gith
 
 ## Acknowledgments
 
-* [National Institutes of Health](https://www.nih.gov/) - [Big Data to Knowledge Initiative](https://datascience.nih.gov/bd2k)
-  * Grants: 1U54EB020404
-* [National Science Foundation](https://www.nsf.gov/)
-  * Grants: 1640813, 1722646
+* [National Institutes of Health](https://www.nih.gov/) - [Big Data to Knowledge Initiative](https://datascience.nih.gov/bd2k) Grants: 1U54EB020404
+* [National Science Foundation](https://www.nsf.gov/) Grant: 1823283
