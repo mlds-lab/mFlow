@@ -13,6 +13,14 @@ import os
 class workflow():
 
     def __init__(self, nodes={}):
+        
+        '''
+        Workflow constructor
+        
+        Args:
+            nodes (dict): a dictionary of workflow output nodes. Keys are used as tags
+            to identify outputs.
+        '''
 
         self.graph=nx.DiGraph()
         self.labels={}
@@ -22,19 +30,35 @@ class workflow():
         #If have compute nodes, add to graph
         #along with all parents
 
-        print(nodes)
-
         for tag in nodes:
             node = nodes[tag]
             self.add_output(node, tag)
         self.pipeline(self.graph)
 
     def add_output(self, node, tag):
+        '''
+        Adds the given workflow node to the set of workflow outputs with the given tag,
+        then adds all of the node's ancestors to the workflow.
+        
+        
+        Args:
+            node: a workflow node
+            tag: a string to identifiy the node
+        '''
+        
         node.out_tag = tag
         node.is_output=True
         self.add(node)
 
     def add(self, nodes):
+        '''
+        Adds the given list of workflow nodes to the workflow, along with all
+        of their ancestors. Sets the out_tag property of the nodes if not
+        already set.
+        
+        Args:
+            nodes: a list of workflow nodes (or a single workflow node).
+        '''
         
         if type(nodes) is not list:
             nodes=[nodes]
@@ -45,8 +69,14 @@ class workflow():
             self.recursive_add_node(node)
 
     def remove(self, nodes):
+        '''
+        Removes the given workflow nodes from the workflow, along with all of their
+        descendents.
         
-        #print(self.graph.nodes())
+        Args:
+            nodes: a list of workflow nodes (or a single workflow node).
+        '''        
+
         if type(nodes) is not list:
             nodes = [nodes]
         
@@ -77,8 +107,17 @@ class workflow():
 
 
     def recursive_add_node(self, node):
+        
+        '''
+        Adds the given list of workflow nodes to the workflow, along with all
+        of their ancestors. If the node is already in the workflow, does
+        not add duplicates.
+        
+        Args:
+            nodes: a list of workflow nodes.
+        '''
+        
         #Get node name and ID
-        # print(node)
         node_id = str(id(node))
         # print(str(id(node)))
         if node_id in self.graph.nodes(): #list(self.blocks.keys()):
@@ -105,15 +144,39 @@ class workflow():
             return(node_id)      
     
     def add_node(self, name, block):
+        '''
+        Adds a node to the workflow with a specified name and block.
+        
+        Args:
+            name (str): unique name for workflow node
+            block: the workflow block for this node
+        '''
+        
         #self.blocks[name] = block
         self.graph.add_node(name, block=block, label=block.name, shape="box", style="filled", fillcolor="white",color="black", fontname="helvetica")
         self.labels[name] = block.name
 
     
     def add_edge(self, node_from, node_to):
+        '''
+        Add a directed edge between nodes
+        
+        Args:
+            node_from: ID of from node
+            node_to: ID of to node 
+        '''
+        
         self.graph.add_edge(node_from, node_to)
         
     def set_status(self,node,status):
+        '''
+        Set the status of a workflow node
+        
+        Args:
+            node: a workflow node
+            status (string): scheduled | notscheduled | running | done
+        '''
+        
         node["block"].status=status
         if(status=="scheduled"):
             node["fillcolor"]="lemonchiffon"
@@ -124,7 +187,13 @@ class workflow():
         elif(status=="done"):
             node["fillcolor"]="lightblue"
     
-    def draw(self, refresh=False):
+    def draw(self, refresh=True):
+        '''
+        Display the workflow graph in a Jupyter notebook
+        
+        Args:
+            refresh (bool): If True, clear the cell before drawing.   
+        '''
         import networkx as nx
         from networkx.drawing.nx_agraph import write_dot, graphviz_layout
         import matplotlib.pyplot as plt
@@ -132,16 +201,23 @@ class workflow():
         
         pdot = nx.drawing.nx_pydot.to_pydot(self.graph)
         pdot.set_rankdir("LR")
-        #pdot.set_splines("ortho")
         
         if not os.path.exists("Temp"):
             os.mkdir("Temp")
         pdot.write_png("Temp/temp.png")
 
-        clear_output(wait=True)
+        if(refresh):
+            clear_output(wait=True)
         display(Image(filename='Temp/temp.png')) 
 
-    def drawPipelined(self, refresh=False):
+    def drawPipelined(self, refresh=True):
+        '''
+        Display pipilined workflow graph in a Jupyter notebook.
+        
+        Args:
+            refresh (bool): If True, clear the cell before drawing.   
+        '''        
+        
         import networkx as nx
         from networkx.drawing.nx_agraph import write_dot, graphviz_layout
         import matplotlib.pyplot as plt
@@ -152,20 +228,43 @@ class workflow():
         
         pdot.write_png("Temp/temp.png")
 
-        clear_output(wait=True)
+        if(refresh):
+            clear_output(wait=True)
         display(Image(filename='Temp/temp.png'))     
     
     def run(self, backend="sequential", num_workers=1, monitor=False,from_scratch=False):
+        '''
+        Run the workflow with the specified backend scheduler. 
+        
+        Args:
+            backend (string): The type of scheduling backend to use (sequential | multithread | multiprocess | pipeline | multithread_pipeline | multiprocess_pipeline). See mFlow.Workflow.scheduler for documentation.
+            num_workers (int): Number of workers to use in parallel backends
+            monitor (bool): If True, use graphical execution monitorin for Jupyter notebooks
+            from_scratch (bool): If True, run the workflow from scratch, discarding any cached results.
+        '''
+        
         return scheduler.run(self, backend=backend, num_workers=num_workers, monitor=monitor,from_scratch=from_scratch)
 
     def add_pipeline_node(self, id, plNode):
+        '''
+        Add a pipline node to pipeline workflow graph
+ 
+        Args:
+            id (string): id for the node
+            plNode: pipelined workflow node
+        '''       
+        
         self.pipelineGraph.add_node(id, block=plNode, label=plNode.name, shape="box", style="filled", fillcolor="white",color="black", fontname="helvetica")
 
-    ### Method is called by the class constructor after creating a pipelined sets of nodes
     def pipelineGraphCreate(self, process_dict):
+        '''
+        Convert a dictionary of pipelined workflow nodes to a pipelined workflow graph.
+        
+        Args:
+            process_dict: dictionary of pipelined workflow nodes.
+        '''
+
         pipelineNodeList = []
-        # headNodes = {}
-        # tailNodes = {}
         for key in process_dict:
             plNode = pipelineNode(self.graph, process_dict[key], key)
             pipelineNodeList.append(plNode)
@@ -180,8 +279,15 @@ class workflow():
                     self.pipelineGraph.add_edge(plNode.id, plNode_adj.id)
         
 
-    ### Called in the class constructor. Produces a pipelined graph object which is used by the scheduler to run the job.
     def pipeline(self, initGraph):
+        '''
+        Convert the given workflow graph to a pipelined representation where chanins in the workflow graph are replaced 
+        by single node.
+        
+        Args:
+            initGraph: A workflow graph.
+        '''
+        
         execute_order = list(nx.topological_sort(initGraph))
         # print("execute order : ")
         root_nodes = []
