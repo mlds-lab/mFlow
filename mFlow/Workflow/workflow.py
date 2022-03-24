@@ -7,7 +7,7 @@ import matplotlib.image as mpimg
 import networkx as nx
 from networkx.generators.triads import triad_graph
 import mFlow.Workflow.scheduler as scheduler
-from mFlow.Workflow.compute_graph import pipelineNode
+from mFlow.Workflow.compute_graph import node #pipelineNode
 import os
         
 class workflow():
@@ -242,6 +242,13 @@ class workflow():
             monitor (bool): If True, use graphical execution monitorin for Jupyter notebooks
             from_scratch (bool): If True, run the workflow from scratch, discarding any cached results.
         '''
+
+        for id in self.graph.nodes():
+            node=self.graph.nodes[id]
+            self.set_status(node,"notscheduled")
+
+        if not(monitor):
+            print(f"Running {backend} Scheduler\n")
         
         return scheduler.run(self, backend=backend, num_workers=num_workers, monitor=monitor,from_scratch=from_scratch)
 
@@ -266,7 +273,8 @@ class workflow():
 
         pipelineNodeList = []
         for key in process_dict:
-            plNode = pipelineNode(self.graph, process_dict[key], key)
+            # plNode = pipelineNode(self.graph, process_dict[key], key)
+            plNode = node(isPipelineNode=True, initGraph=self.graph, node_list=process_dict[key], id=key)
             pipelineNodeList.append(plNode)
             self.add_pipeline_node(key, plNode)
         for plNode in pipelineNodeList:

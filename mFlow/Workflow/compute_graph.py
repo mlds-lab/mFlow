@@ -1,9 +1,34 @@
-
 import copy
 import time
 
 class node():
-    def __init__(self, function=None, args=[], kwargs={}, name=None, parents=[]):
+    def __init__(self, isPipelineNode=False, function=None, args=[], kwargs={}, name=None, parents=[], initGraph=None, node_list=[], id=""):
+        
+        if isPipelineNode:
+            self.init_pipeline_node(initGraph, node_list, id)
+        else:
+            self.init_node(function, args, kwargs, name, parents)
+
+        self.isPipelineNode = isPipelineNode
+        # print (self.isPipelineNode, isPipelineNode)
+
+    def init_pipeline_node(self, initGraph, node_list, id):
+        
+        self.id = id
+        self.head = node_list[0]
+        self.tail = node_list[len(node_list)-1]
+        self.name = ""
+        self.node_list = node_list
+        self.initGraph = initGraph
+        
+        for i, id in enumerate(node_list):
+            self.name += initGraph.nodes[id]["block"].name
+            if i != len(node_list)-1:
+                self.name += "."
+        self.out = None
+
+    def init_node(self, function=None, args=[], kwargs={}, name=None, parents=[]):
+
         self.function = function
         self.args = list(args)
         self.kwargs = kwargs
@@ -31,12 +56,21 @@ class node():
                 self.long_name += self.kwargs[kw].long_name + "." 
 
     def run(self):            
-        for i in self.args_parents:
-            self.args[i]=self.args_parents[i].out
-        for kw in self.kwargs_parents:
-            self.kwargs[kw]=self.kwargs_parents[kw].out
 
-        self.out =  self.function(*self.args, **self.kwargs)
+        if self.isPipelineNode:
+            time1 = time.time()
+            if self.out is None:
+                for node_id in self.node_list:
+                    intermediate_out = self.initGraph.nodes[node_id]["block"].run()
+                self.out = intermediate_out
+                #print("Time taken by "+ str(self.initGraph.node[node_id]["block"].name) + " : " + str(time.time()-time1))
+        else:
+            for i in self.args_parents:
+                self.args[i]=self.args_parents[i].out
+            for kw in self.kwargs_parents:
+                self.kwargs[kw]=self.kwargs_parents[kw].out
+
+            self.out = self.function(*self.args, **self.kwargs)
 
         return (self.out)
             
@@ -49,36 +83,3 @@ class node():
         for kw in self.kwargs_parents:
             self.kwargs[kw]=self.kwargs_parents[kw].out      
         return  self.kwargs
-
-
-
-### Aggregation of nodes in series. The run method executes indivudual run methods of each node of the set in order when called.
-class pipelineNode():
-    def __init__(self, initGraph, node_list, id):
-        self.id = id
-        self.head = node_list[0]
-        self.tail = node_list[len(node_list)-1]
-        self.name = ""
-        self.node_list = node_list
-        self.initGraph = initGraph
-        for i, id in enumerate(node_list):
-            self.name += initGraph.nodes[id]["block"].name
-            if i != len(node_list)-1:
-                self.name += "."
-        self.out = None
-
-    def run(self):
-        time1 = time.time()
-        if self.out is not None:
-            #If function at this node has already been computed, 
-            #just return the value
-            return(self.out)
-        else:
-            for node_id in self.node_list:
-                #print(node_id)
-                intermediate_out = self.initGraph.nodes[node_id]["block"].run()
-            self.out = intermediate_out
-            #print("Time taken by "+ str(self.initGraph.node[node_id]["block"].name) + " : " + str(time.time()-time1))
-            return (self.out)
-
-            

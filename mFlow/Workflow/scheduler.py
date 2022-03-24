@@ -9,9 +9,9 @@ import numpy as np
 
 def run(flow, backend="sequential", num_workers=1, monitor=False, from_scratch=False):
     
-    for id in flow.graph.nodes():
-        node=flow.graph.nodes[id]
-        flow.set_status(node,"notscheduled")
+    # for id in flow.graph.nodes():
+    #     node=flow.graph.nodes[id]
+    #     flow.set_status(node,"notscheduled")
     
     if(backend=="sequential"):
         return run_sequential(flow,monitor=monitor,from_scratch=from_scratch)
@@ -25,15 +25,16 @@ def run(flow, backend="sequential", num_workers=1, monitor=False, from_scratch=F
 
 def run_sequential(flow, data=None, monitor=False,from_scratch=False):
     import os
-    if(monitor==False): 
-        print("Running Sequential Scheduler\n")
-    else:
+    # if(monitor==False): 
+    #     print("Running Sequential Scheduler\n")
+    # else:
+    if monitor:
         from IPython import display
         display.clear_output()
     
-    for id in flow.graph.nodes():
-        node=flow.graph.nodes[id]
-        flow.set_status(node,"notscheduled")
+    # for id in flow.graph.nodes():
+    #     node=flow.graph.nodes[id]
+    #     flow.set_status(node,"notscheduled")
     
     exectute_order = list(nx.topological_sort(flow.graph))
     completed_nodes=[]
@@ -70,7 +71,7 @@ def run_sequential(flow, data=None, monitor=False,from_scratch=False):
 ### Runs the pipelined graph in sequential order
 def run_pipeline(flow, data=None, monitor=False,from_scratch=False):
     import os
-    if(monitor==False): print("Running Sequential Scheduler\n")
+    # if(monitor==False): print("Running Sequential Scheduler\n")
 
     exectute_order = list(nx.topological_sort(flow.pipelineGraph))
 
@@ -90,11 +91,11 @@ def run_pipeline(flow, data=None, monitor=False,from_scratch=False):
     
 def run_parallel(flow,data=None,backend="multithread",num_workers=1,monitor=False,from_scratch=False):
     
-    if(monitor==False): print("Running Parallel Scheduler\n")
+    # if(monitor==False): print("Running Parallel Scheduler\n")
     
-    for id in flow.pipelineGraph.nodes():
-        node=flow.pipelineGraph.nodes[id]
-        flow.set_status(node,"notscheduled")
+    # for id in flow.pipelineGraph.nodes():
+    #     node=flow.pipelineGraph.nodes[id]
+    #     flow.set_status(node,"notscheduled")
     
     nodes_waiting   = list(flow.graph.nodes)
     nodes_done      = []
@@ -351,11 +352,11 @@ def run_parallel(flow,data=None,backend="multithread",num_workers=1,monitor=Fals
 ### Runs the pipelined graph in parallel, either in multithreaded or multiprocessed configurations depending on the flag
 def run_parallel_pipeline(flow,data=None,backend="multithread_pipeline",num_workers=1,monitor=False,from_scratch=False, refresh_rate=0.05):
     
-    if(monitor==False): print("Running Parallel Pipeline Scheduler\n")
+    # if(monitor==False): print("Running Parallel Pipeline Scheduler\n")
     
-    for id in flow.pipelineGraph.nodes():
-        node=flow.pipelineGraph.nodes[id]
-        flow.set_status(node,"notscheduled")
+    # for id in flow.pipelineGraph.nodes():
+    #     node=flow.pipelineGraph.nodes[id]
+    #     flow.set_status(node,"notscheduled")
     
     nodes_waiting   = list(flow.pipelineGraph.nodes)
     nodes_done      = []
